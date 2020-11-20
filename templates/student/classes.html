@@ -1,0 +1,68 @@
+<html>
+<head>
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="{{ url_for('static',filename='styles/default.css') }}" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ url_for('static',filename='styles/fonts.css') }}" rel="stylesheet" type="text/css" media="all" />	
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login.css') }}"/>
+<style>
+	table {
+	  border-spacing: 0;
+	  border: 0px solid #ddd;
+	  margin-left:auto;
+	  margin-right:auto
+	}
+	
+	th, td {
+	  text-align: left;
+	  padding: 4px;
+	}
+	
+	tr:nth-child(even) {
+	  background-color: #f2f2f2
+	}
+	font{font-family: Arial, Helvetica, sans-serif}
+</style>
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<br><br><br>
+			<h1><a>{{session['first_name'] + ' ' + session['last_name']}}</a></h1>
+			<h2><a>{{session['university_name']}}</a></h2>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="/student_home" accesskey="1" title="">Home</a></li>
+				<li class="current_page_item"><a href="/student/classes" accesskey="2" title="">Classes</a></li>
+				<li><a href="/student/assignments" accesskey="3" title="">Assignments</a></li>
+				<li><a href="/logout_student" accesskey="4" title="">Log Out</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="welcome">
+			<div class="title">
+				<h2>Classes</h2>
+				<br><br>
+				<table id = "classInfo">
+					<tr>
+						<th>Course	</th>
+						<th>Section	</th>
+						<th>Overall Grade	</th>
+					</tr>
+				{% for line in classInfor %}
+					<tr>
+						<td>{{line['course_code']}}</td>
+						<td>{{line['section_id']}}</td>
+						<td>{{line['overall_grade']}}</td>
+					</tr>
+				{% endfor %}
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

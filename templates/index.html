@@ -1,0 +1,63 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index.css') }}"/>
+	<style>
+		table {
+		  border-spacing: 0;
+		  width: 100%;
+		  border: 1px solid #ddd;
+		}
+		
+		th, td {
+		  text-align: left;
+		  padding: 16px;
+		}
+		
+		tr:nth-child(even) {
+		  background-color: #f2f2f2
+		}
+	</style>
+</head>
+
+<body>
+	<!-- <canvas id="myCanvas"></canvas> -->
+		
+	<script type="text/javascript" src="/static/script.js"></script>
+
+	<header>
+		<a href="#" class="logo">Coursework/Canvas</a>
+		<ul>
+			<!-- {% if not message %} -->
+			<li><a href="/student_login">Student Login</a></li>
+			<li><a href="/professor_login">Professor Login</a></li>
+			<!-- {% endif %} -->
+		</ul>
+	</header>
+
+	<section class="banner"></section>
+	<script type="text/javascript">
+		window.addEventListener("scroll", function(){
+			var header = document.querySelector("header");
+			header.classList.toggle("sticky", window.scrollY > 0);
+		})
+	</script>
+	<br>
+
+	<h1> University <h1>
+	<table>
+		<th>University</th>
+		<th>City</th>
+		<th>State</th>
+
+	{% for line in schools %}
+		<tr>
+			<td>{{line['university_name']}}</td>
+			<td>{{line['city']}}</td>
+			<td>{{line['state']}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+
+</body>
+</html>

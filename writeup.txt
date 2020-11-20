@@ -1,0 +1,53 @@
+Project Description:
+
+This project is a web application in association with a database that is close to Canvas/Coursework.
+Using this system, professors can see who is enrolled in their classes, assign homework, quiz, andtest, grade, and provide feedback on students’ works, etc. Students can see a list of classes they 
+enrolled in each semester, check the deadline for their assignments, submit homework, quiz, and test,
+view their grade and feedback, etc. Professors who are also their students’ advisors can check their
+advisees’ GPA, anticipated year of graduation, majors, etc. In general, this is a simple combination 
+of Canvas and Degree Audit.
+
+Client-Server Model:
+
+ --------	  --------	   --------------	 --------
+|	 |	 |	  |	  |		|	|	|
+|	 |	 |	  |	  |		|	|	|
+| Client	 | <---> | Server  | <---> | Python/Flask	| <--->  | MySQL	|
+| Browser|	 | Apache  |	  |		|	|	|
+|	 |	 |	  |	  |		|	|	|
+ --------	  --------	   --------------	 --------
+
+
+1) Since the milestone 1, I made a lot of progresses; the Python/Flask sever is finished, the majority of HTML pages are done, many useful examples are generated, queries are created, and etc.
+
+2) There is not a lot of challenges left now. The only one is that you might see there is a little bit different between the ER-diagram and the DDL. The reason makes it different is that to make my database satisfies BCNF, I changed the ER-diagram but due to the fact that there are many examples (insert) and queries are created already, it is hard to update all of them. But the difference is a little. 
+
+3) The ER-diagram is attached. 
+
+Notation: * means primary key.
+
+university(*name, city, state): each university has a unique name.
+
+in(*university, *department): university and department are both primary keys and foreign keys because each university has many departments.
+
+department(*dept_name, funding, num_professor): the departm_name is the primary key.
+
+course(*course_code, dept_name, description): dept_name is the foreign key because a course must be offered by a department. 
+
+professor(*email, department, password, first_name, last_name, pronounce, date_of_birth): department is the foreign key because each professor belongs to a department. 
+
+section(*course_code, *section, time, room, building): course_code and section form the primary key and course_code is the foreign key to course because each course can have one or more sections.
+
+teaching(*prof_email, *course_code, *section): prof_email is a foreign key to professor because a section is taught by a professor. course_code and section are foreign keys to section to associate professor with section. 
+
+student(*email, password, pronounce, major, GPA, anticipate_year_of_graduation, permanent_address): every student is unique identified by his/her email address.  Major is referred to department.
+
+of(*university, *student_email): university is a foreign key to university and student_email is a foreign key to student because every student is enrolled in one university.
+
+advising(*prof_email, *student_email): prof_email is a foreign key to professor and student_email is a foreign key to student because students have advisor (possibly no advisor for those who do not have a major yet and one advisee has many advisors like me I have four). Therefore, I did not address number constraints in my ER-diagram (there are many weird things can happen). 
+
+taking(*student_email, *course, *section, overall_grade): student_email is a foreign key to student.
+
+assignment(*course, *section, *assignment_number, *student_email, deadline, grade): Since assignment is assigned to every student who is taking this section. The foreign keys are course and section, which refer to section, and student_email, which is restricted by taking. 
+
+The most of relations satisfy BCNF. For example, in university, the functional dependency is name -> city, state. It is BCNF because name is a super key. Or in the table, in, there are only super keys, university and department, which makes all functional dependency of this table are BCNF. However, for the table, professor, if we allow a professor can work for two department, then it is not a BCNF. Because we can have a dependency email -> first_name, last_name, pronounce, date_of_birth, but email is not a super key now ((email, department) is). It really depends on how we define the table. 

@@ -1,0 +1,111 @@
+<html>
+<head>
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="{{ url_for('static',filename='styles/default.css') }}" rel="stylesheet" type="text/css" media="all" />
+<link href="{{ url_for('static',filename='styles/fonts.css') }}" rel="stylesheet" type="text/css" media="all" />	
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login.css') }}"/>
+<style>
+	table {
+	  border-spacing: 0;
+	  border: 0px solid #ddd;
+	  margin-left:auto;
+	  margin-right:auto
+	}
+	
+	th, td {
+	  text-align: left;
+	  padding: 4px;
+	}
+	
+	tr:nth-child(even) {
+	  background-color: #f2f2f2
+	}
+	font{font-family: Arial, Helvetica, sans-serif}
+</style>
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<br><br><br>
+			<h1><a>{{session['first_name'] + ' ' + session['last_name']}}</a></h1>
+			<h2><a>{{session['university_name']}}</a></h2>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="/professor_home" accesskey="1" title="">Home</a></li>
+				<li><a href="/prof/classes" accesskey="2" title="">Classes</a></li>
+				<li class="current_page_item"><a href="/prof/assignments" accesskey="3" title="">Assignments</a></li>
+				<li><a href="/logout_professor" accesskey="4" title="">Log Out</a></li>	
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="welcome">
+			<div class="title">
+				<h2>Create and Grade Assignments</h2>
+				<br><br>
+			</div>
+			<form action="/addAssignment" method="POST">
+				<span class="byline">Create New Assignments</span>
+				<table id = "user_input" class = "table no">
+					<tr>
+						<th>Course</th>
+						<th>Section</th>
+						<th>HW</th>
+						<th>Due Date</th>
+					</tr>
+					<tr>	
+						<td><input type="text" name = "course"     		placeholder="Course" required/></td>
+						<td><input type="text" name = "section"		placeholder="Section"  	required/></td>
+						<td><input type="text" name = "hw"  		placeholder="HW" 			required/></td>
+						<td><input type="date" name = "ddl" 		placeholder="Due Date" 	required/><input type="submit" value = Create /></td>
+					</tr>
+					</tr>
+				</table>
+			</form>
+			<form action="/updateGrade" method="POST">
+				<span class="byline">Grading Assignments</span>
+				<table id = "user_input" class = "table no">
+					<tr>
+						<th>Course</th>
+						<th>Section</th>
+						<th>HW</th>
+						<th>Email</th>
+						<th>Grade</th>
+					</tr>
+					<tr>	
+						<td><input type="text" name = "course"     		placeholder="Course" required/></td>
+						<td><input type="text" name = "section"		placeholder="Section"  	required/></td>
+						<td><input type="text" name = "hw"  		placeholder="HW" 			required/></td>
+						<td><input type="text" name = "email"  		placeholder="Student Email" 			required/></td>
+						<td><input type="text" name = "grade"  		placeholder="Grade" 			required/><input type="submit" value = Grade /></td></td>
+
+					</tr>
+					</tr>
+				</table>
+			</form>
+			{% if(assignment) %}
+			<h2>List of Current Assignments</h2>
+			<table id = "View Assignments">
+				<tr>
+					<th>Assignment Number</th>
+					<th>Student Email	</th>
+					<th>Deadline	</th>
+					<th>Grade	</th>
+				</tr>
+			{% for line in assignment %}
+				<tr>
+					<td>{{line['assignment_num']}}</td>
+					<td>{{line['student_email']}}</td>
+					<td>{{line['deadline']}}</td>
+					<td>{{line['grade']}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+			{% endif %}
+		</div>
+	</div>
+</div>
+</body>
+</html>
